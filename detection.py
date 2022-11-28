@@ -29,5 +29,6 @@ while(True):
 	for line in lines:
 		#look for weirdness
 		if line == "weirdness":
-			print("Alert! " + str(pid) + " is attacking the system!")
-			alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
+			print("Alert")
+			#print("Alert! " + str(pid) + " is attacking the system!")
+			#alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
