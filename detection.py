@@ -23,11 +23,11 @@ while(True):
 
 	for pid in os.listdir('/proc'):
 		if pid.isdigit() and pid not in pids:
-			alertfile.write("Alert! " + str(pid) + " is attacking the system!")
+			alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
 			print("Alert! " + str(pid) + " is attacking the system!")
 
 	for line in lines:
 		#look for weirdness
 		if line == "weirdness":
 			print("Alert! " + str(pid) + " is attacking the system!")
-			alertfile.write("Alert! " + str(pid) + " is attacking the system!")
+			alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
