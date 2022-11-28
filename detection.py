@@ -21,6 +21,11 @@ while(True):
 	lines = f.readlines()
 	f.close()
 
+	for pid in os.listdir('/proc'):
+		if pid.isdigit() and pid not in pids:
+			alertfile.write("Alert!")
+			print("Alert!")
+
 	for line in lines:
 		#look for weirdness
 		if line == "weirdness":
