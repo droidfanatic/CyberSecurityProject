@@ -78,17 +78,18 @@ while(True):
 	except:
 		#pass
 		usage = "~~~~~"
-		
-	while(usage == "~~~~~"):
-		try:
-			usage = cpufile.readline().split(" ")[2].replace("%","")
-		except:
-			usage = "~~~~~"
+	
 	while(logtime == "~~~~~"):
 		try:
 			logtime = cpufile.readline().replace("\n","")
 		except:
 			logtime = "~~~~~"
+			
+	while(usage == "~~~~~"):
+		try:
+			usage = cpufile.readline().split(" ")[2].replace("%","")
+		except:
+			usage = "~~~~~"
 	
 	if int(usage) >= 90:
 		command = "grep -E " + str(logtime) + " /REPLACEME/file_tracker > /REPLACEME/test"
