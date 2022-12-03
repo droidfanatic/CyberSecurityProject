@@ -1,0 +1,5 @@
+#! /bin/bash
+
+zip -m content.zip image
+
+cat image.JPG content.zip > TheImage.jpg
