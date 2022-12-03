@@ -1,29 +1,14 @@
-Steps for running scripts
+This script is not needed to run the full test.
 
-1.download all of the files and ensure they don't have file extensions on them. Also make sure they are in /home to make it easier to run everything.
-2.Run the following commands in termianl to make sure that the files will run properly and there are no hidden characters anywhere
-	sudo mkdir /REPLACEME
-	sudo chmod 777 /REPLACEME
-	chmod 777 mitigation
-	chmod 777 monitoring
-	chmod 777 backup
-	sed -i -e 's/\r$//' mitigation
-	sed -i -e 's/\r$//' monitoring
-	sed -i -e 's/\r$//' backup
-  
-  if rsa is not installed run this command: pip install rsa
-  
-3.Run "./backup" to create a backup of the system
-4.Run "unzip TheImage.jpg" to expand the image
+If you want to use this script run the following commands
+	unzip TheImage.jpg
+	./content/image
 
-*NOTE* make sure you have the following command pretyped in terminals to ensure that you can run them fast enough.
-Run them in this order.
+Observer that the files are encrypted.
 
-5.Run "./monitoring" to start monitoring
-6.Run "python3 detection" to start detection
-7.Run "./content/image" to start ransomeware
-8.AS SOON AS DETECTION says "Alert!" in terminal run "./mitigation" to kill ransomeware and restore system
-9.Kill all processes still running by pressing ctrl+c in each terminal
+Run "python3 decryption"
+
+Observer that the files are decrypted.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -33,7 +18,7 @@ It also allowed us to test out other scripts without have to reset the system an
 This script will just reverse the the damage that was caused by the ransomware.
 It reads the keys that were saved locally and decrypts all the files that were previously encrytped.
 
-~~~~~~~~~~~~~~~~~~~~~~backup script below~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~decryption script below~~~~~~~~~~~~~~~~~~~~~~
 
 import glob
 import os
