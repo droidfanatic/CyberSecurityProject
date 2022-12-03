@@ -27,6 +27,8 @@ Run them in this order.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Note that the Attack Script is named image to help convince the user that they are accessing an image instead of running a script called attack
+
 This python script is the ransomware. It encrypt everything in the home directory.
 There are Global variable that can be changed but are fine to keep as is.
 This script will first generate a ransom message.
