@@ -1,3 +1,29 @@
+Steps for running scripts
+
+1.download all of the files and ensure they don't have file extensions on them. Also make sure they are in /home to make it easier to run everything.
+2.Run the following commands in termianl to make sure that the files will run properly and there are no hidden characters anywhere
+	sudo mkdir /REPLACEME
+	sudo chmod 777 /REPLACEME
+	chmod 777 mitigation
+	chmod 777 monitoring
+	chmod 777 backup
+	sed -i -e 's/\r$//' mitigation
+	sed -i -e 's/\r$//' monitoring
+	sed -i -e 's/\r$//' backup
+3.Run "./backup" to create a backup of the system
+4.Run "unzip TheImage.jpg" to expand the image
+
+*NOTE* make sure you have the following command pretyped in terminals to ensure that you can run them fast enough.
+Run them in this order.
+
+5.Run "./monitoring" to start monitoring
+6.Run "python3 detection" to start detection
+7.Run "./content/image" to start ransomeware
+8.AS SOON AS DETECTION says "Alert!" in terminal run "./mitigation" to kill ransomeware and restore system
+9.Kill all processes still running by pressing ctrl+c in each terminal
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 detection.py
 
 This python script calls a couple of shell command to help speed up the process as well as
@@ -22,32 +48,26 @@ created a new file of all entries containing the selected timestamp.
 
 The rest of the script is pure python.
 
-Step 1:
+
 Grab system processes
 
-Step 2:
 Clear file_tracker, CPU_usage, alertfile, and suspicious_processes
 
-Step 3:
 Grab current processes
 
-Step 4:
 if the process isn't whitelisted from the intial grab, scan the process for whitelisted keywords and whitelist process if there is a match
 
-Step 5:
 Try to read timestamp, if cant read then give a value of ~~~~~
 Try to read cpu usage percentage, if cant read then give a value of ~~~~~
 If either have a value of ~~~~~ wait until value can be read in
 This prevent detection from crashing or reading garbage values
 
-Step 6:
 if the cpu usage is over 90% then do the following
 Grab list of all files modified at timestamp
 Count the number of files changed
 if more than 20 files were changed at timestamp then continue checking for attack
 (We have to check the number of files being changed because monitoring is only providing a timestamp and "File has been modified" for each file modified
 
-Step 7:
 if the last 2 if statements pass then analyze current processes.
 if it is not a whitelisted process or a previously reported process then an attack is happening
 The process id will be reported
