@@ -1,0 +1,15 @@
+#/!bin/bash
+
+#kill the suspicious pid
+process_id=($(awk '{print $2}' alertfile))
+
+for i in "${process_id[@]}"
+do
+	kill -9 $i
+done
+
+#delete the encrypted directories
+rm -rf /home/sec-lab/*/
+
+#restore from /home/sec-lab from /home_backup
+rsync -av --include=*.* --include=*/ /REPLACEME/home_backup/ /home/sec-lab/ 

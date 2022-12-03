@@ -1,0 +1,5 @@
+#/!bin/bash
+
+#copy all file with extensions to a backup directory
+rsync -av -f "- .*" --include=*.* --include=*/ --exclude=* /home/sec-lab/ /Daycee/home_backup
+

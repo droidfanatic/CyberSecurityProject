@@ -1,0 +1,108 @@
+import os
+import time
+
+pids = []
+reportedpids = []
+whitelist = ["/usr/libexec/tracker-store\n", "/usr/libexec/tracker-extract\n", "/REPLACEME/currentpids\n", "-elf\n", "sec-lab\n", "./monitoring\n", "/home/sec-lab/\n", "{print $15}\n", "-1\n", "2\n"]
+
+print("Starting Detection")
+time.sleep(2)
+print("Grabbing Processes")
+
+os.system("ps -elf | grep sec-lab > /REPLACEME/syspids")
+
+f = open("/REPLACEME/syspids", "r")
+lines = f.readlines()
+f.close()
+
+for line in lines:
+	sline = line.split(" ")
+	for i,split in enumerate(sline):
+		if i > 3 and split.isdigit():
+			pids.append(split)
+			break
+
+print("Processes Collected, Starting Analysis")
+
+clearfile = open("/REPLACEME/file_tracker", "w")
+clearfile.write("")
+clearfile.close()
+
+clearfile = open("/REPLACEME/CPU_usage", "w")
+clearfile.write("")
+clearfile.close()
+
+alertfile = open("/REPLACEME/alertfile", "w")
+alertfile.write("Start\n")
+alertfile.close()
+
+susfile = open("/REPLACEME/suspicious_processes", "w")
+susfile.write("Start\n")
+susfile.close()
+
+#read cpu file
+cpufile = open("/REPLACEME/CPU_usage", "r")
+
+while(True):
+	alertfile = open("/REPLACEME/alertfile", "a")
+	susfile = open("/REPLACEME/suspicious_processes", "a")
+
+	#this delay allows time to kill process
+	time.sleep(0.002)
+
+	currentpids = []
+	tempfile = []
+
+	os.system("ps -elf | grep sec-lab > /REPLACEME/currentpids")
+	
+	f = open("/REPLACEME/currentpids", "r")
+	lines = f.readlines()
+	f.close()
+
+	for line in lines:
+		sline = line.split(" ")
+		for i,split in enumerate(sline):
+			if i > 3 and split.isdigit():
+				tempfile.append(line)
+				currentpids.append(split)
+				if split not in pids and sline[len(sline) - 1] in whitelist:
+					pids.append(split)
+				break
+	try:
+		logtime = cpufile.readline().replace("\n","")
+	except:
+		#pass
+		logtime = "~~~~~"
+	try:
+		usage = cpufile.readline().split(" ")[2].replace("%","")
+	except:
+		#pass
+		usage = "~~~~~"
+		
+	while(usage == "~~~~~"):
+		try:
+			usage = cpufile.readline().split(" ")[2].replace("%","")
+		except:
+			usage = "~~~~~"
+	while(logtime == "~~~~~"):
+		try:
+			logtime = cpufile.readline().replace("\n","")
+		except:
+			logtime = "~~~~~"
+	
+	if int(usage) >= 95:
+		command = "grep -E " + str(logtime) + " /REPLACEME/file_tracker > /REPLACEME/test"
+		os.system(command)
+		trackerfile = open("/REPLACEME/test", "r")
+		tlines = trackerfile.readlines()
+		trackerfile.close()
+		if len(tlines) >= 20:
+			for i,pid in enumerate(currentpids):
+				if pid not in pids and pid not in reportedpids:
+					reportedpids.append(pid)
+					susfile.write(tempfile[i])
+					alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
+					print("Alert! " + str(pid) + " is attacking the system!")
+
+	alertfile.close()
+	susfile.close()	

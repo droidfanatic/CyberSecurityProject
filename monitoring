@@ -1,0 +1,20 @@
+#! /bin/bash
+
+#tracking usage
+cpu_usage(){
+	date "+%T" >> /REPLACEME/CPU_usage
+	echo "CPU Usage: "$[100-$(vmstat 1 2|tail -1|awk '{print $15}')]"%" >> /REPLACEME/CPU_usage
+	}
+	
+#tracking file changes	
+file_tracker(){
+	inotifywait --exclude meta.* --timefmt='%T File was modified' --format '%T' -m -r -q -e modify /home/sec-lab/ >> /REPLACEME/file_tracker
+	#inotifywait --exclude meta.* -m -r -q -e modify /home/sec-lab/ >> /REPLACEME/file_tracker
+	}
+
+while :
+do
+	file_tracker & cpu_usage && kill $!
+	
+done
+
