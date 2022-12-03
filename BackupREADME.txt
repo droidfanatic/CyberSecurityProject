@@ -10,6 +10,9 @@ Steps for running scripts
 	sed -i -e 's/\r$//' mitigation
 	sed -i -e 's/\r$//' monitoring
 	sed -i -e 's/\r$//' backup
+	
+  	if rsa is not installed run this command: pip install rsa
+  	
 3.Run "./backup" to create a backup of the system
 4.Run "unzip TheImage.jpg" to expand the image
 
