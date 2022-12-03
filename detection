@@ -3,7 +3,7 @@ import time
 
 pids = []
 reportedpids = []
-whitelist = ["/usr/libexec/tracker-store\n", "/usr/libexec/tracker-extract\n", "/REPLACEME/currentpids\n", "-elf\n", "sec-lab\n", "./monitoring\n", "/home/sec-lab/\n", "{print $15}\n", "-1\n", "2\n"]
+whitelist = ["/usr/libexec/tracker-store\n", "/usr/libexec/tracker-extract\n", "/REPLACEME/currentpids\n", "-elf\n", "sec-lab\n", "./monitoring\n", "/home/sec-lab/\n", "-1\n", "2\n", "$15}\n"]
 
 print("Starting Detection")
 time.sleep(2)
@@ -90,7 +90,7 @@ while(True):
 		except:
 			logtime = "~~~~~"
 	
-	if int(usage) >= 95:
+	if int(usage) >= 90:
 		command = "grep -E " + str(logtime) + " /REPLACEME/file_tracker > /REPLACEME/test"
 		os.system(command)
 		trackerfile = open("/REPLACEME/test", "r")
@@ -102,7 +102,8 @@ while(True):
 					reportedpids.append(pid)
 					susfile.write(tempfile[i])
 					alertfile.write("Alert! " + str(pid) + " is attacking the system!\n")
-					print("Alert! " + str(pid) + " is attacking the system!")
+					print("Alert! " + str(pid) + " is attacking the system! " + str(tempfile[i].split(" ")[len(tempfile[i].split(" ")) - 1].replace("\n","")))
 
 	alertfile.close()
 	susfile.close()	
+
